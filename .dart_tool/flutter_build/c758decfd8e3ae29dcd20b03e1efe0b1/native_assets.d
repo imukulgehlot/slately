@@ -1,0 +1,1 @@
+ C:\\Users\\imuku\\Documents\\FlutterDev\\projects\\slately\\.dart_tool\\flutter_build\\c758decfd8e3ae29dcd20b03e1efe0b1\\native_assets.yaml: 
