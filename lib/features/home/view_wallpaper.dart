@@ -22,11 +22,14 @@ class _ViewWallpaperState extends State<ViewWallpaper> {
         alignment: Alignment.center,
         children: [
           // The Picture
-          CustomNetworkImage(
-            image: widget.pictureURL,
-            height: Get.height,
-            width: Get.width,
-            fitType: BoxFit.cover,
+          Hero(
+            tag: widget.pictureURL,
+            child: CustomNetworkImage(
+              image: widget.pictureURL,
+              height: Get.height,
+              width: Get.width,
+              fitType: BoxFit.cover,
+            ),
           ),
 
           // Back Button

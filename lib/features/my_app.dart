@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../core/basic_features.dart';
 import '../core/theme/app_theme_data.dart';
+import 'admin/image_upload_screen.dart';
 import 'home/home_screen.dart';
 import 'home/view_wallpaper.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.dark,
             debugShowCheckedModeBanner: false,
             title: AppString.appName,
-            home: const HomeScreen(),
+            home:  HomeScreen(),
           ),
         );
       },
