@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:slately/features/admin/image_upload_screen.dart';
 
 import '../core/basic_features.dart';
 import '../core/theme/app_theme_data.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.dark,
             debugShowCheckedModeBanner: false,
             title: AppString.appName,
-            home: const HomeScreen(),
+            home: ImageUploadScreen(),
           ),
         );
       },

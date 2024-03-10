@@ -82,7 +82,8 @@ class APIHelper {
   }
 
   Future<NetworkResult> callGetApi(
-      String path, dynamic params, bool isLoader) async {
+      String path, dynamic params, bool isLoader,
+      {Map<String, String>? customHeader}) async {
     var callingURL =
         Uri.parse(path).replace(queryParameters: params).toString();
     //Uri? uri;
@@ -90,7 +91,8 @@ class APIHelper {
     await _createHeaders();
     if (_isDebug) {
       timber("API URL -> $callingURL");
-      timber("API Headers -> $_headers", usePrint: true);
+
+      timber("API Headers -> ${customHeader ?? _headers}", usePrint: false);
     }
 
     if (await isConnected()) {
@@ -99,7 +101,7 @@ class APIHelper {
       }
       try {
         var resp = await network
-            .get(Uri.parse(callingURL), headers: _headers)
+            .get(Uri.parse(callingURL), headers: customHeader ?? _headers)
             .timeout(const Duration(minutes: 1));
 
         if (_isDebug) timber("API Response -> ${resp.statusCode} ${resp.body}");

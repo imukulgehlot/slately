@@ -64,7 +64,9 @@ APIResult<T> getAPIResultFromNetwork<T>(
           } else {
             if (kDebugMode) {
               print("Inside success");
+
             }
+
             if (baseResponse.result != null) {
               if (baseResponse.result.runtimeType != String) {
                 T? responseModel = converter(baseResponse.result);

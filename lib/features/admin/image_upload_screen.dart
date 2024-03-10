@@ -1,15 +1,8 @@
-import 'dart:ffi';
 import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:slately/core/basic_features.dart';
-import 'package:slately/core/constants/dimensions.dart';
-import 'package:slately/core/utils/logger_util.dart';
 import 'package:slately/core/widgets/custom_image.dart';
 import 'package:slately/features/admin/controllers/image_upload_controller.dart';
 
@@ -41,7 +34,7 @@ class ImageUploadScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(Dimensions.r10),
                           child: CustomNetworkImage(
                             height: double.infinity,
-                            image: imageUploadController.images[index],
+                            image: imageUploadController.images[index].url!,
                           ),
                         ),
                         Positioned(
@@ -57,8 +50,11 @@ class ImageUploadScreen extends StatelessWidget {
                               ),
                               child: Center(
                                 child: IconButton(
-                                    onPressed: () {
-                                      logger.i(imageUploadController.images[index]);
+                                    onPressed: () async {
+                                      await imageUploadController.deleteImage(
+                                          url: imageUploadController
+                                              .images[index]);
+                                      imageUploadController.getImages();
                                     },
                                     icon: Icon(
                                       Icons.delete,
@@ -78,7 +74,7 @@ class ImageUploadScreen extends StatelessWidget {
             XFile? file =
                 await ImagePicker().pickImage(source: ImageSource.gallery);
             if (file != null) {
-              imageUploadController.uploadImage(File(file.path));
+              await imageUploadController.uploadImage(File(file.path));
               imageUploadController.getImages();
             }
           }
