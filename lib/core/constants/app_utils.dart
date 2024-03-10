@@ -190,7 +190,7 @@ class AppUtils {
 
   static void showCustomDialog({
     required String title,
-    required String contentText,
+    String? contentText,
     bool barrierDismiss = true,
     bool mergeDefaultWithContent = false,
     String? firstButtonText,
@@ -228,32 +228,15 @@ class AppUtils {
             width: Get.width * 0.78,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimensions.r15),
-              color: Get.theme.scaffoldBackgroundColor,
+              color: Get.theme.scaffoldBackgroundColor.withOpacity(0.8),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                // Close Icon
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    // icon: CustomSvgAssetImage(
-                    //   image: ImageAsset.icCross,
-                    //   width: Dimensions.w15,
-                    //   height: Dimensions.w15,
-                    // ),
-                    icon: Icon(
-                      Icons.close,
-                      size: Dimensions.w15,
-                    ),
-                    onPressed: () => Get.back(),
-                  ),
-                ),
-
                 Padding(
-                  padding: EdgeInsets.all(Dimensions.commonPaddingForScreen)
-                      .copyWith(top: 0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.commonPaddingForScreen,
+                      vertical: Dimensions.h15),
                   child: myWidget != null && !mergeDefaultWithContent
                       ? myWidget
                       : Column(
@@ -277,12 +260,13 @@ class AppUtils {
                             ),
 
                             // Content Text
-                            Text(
-                              contentText,
-                              textAlign: TextAlign.center,
-                              style: fontStyleMedium12.copyWith(
-                                  color: Get.theme.colorScheme.textColor),
-                            ),
+                            if (contentText != null)
+                              Text(
+                                contentText,
+                                textAlign: TextAlign.center,
+                                style: fontStyleMedium12.copyWith(
+                                    color: Get.theme.colorScheme.textColor),
+                              ),
 
                             if (myWidget != null) myWidget,
 
@@ -434,7 +418,7 @@ class AppUtils {
       backButtonPressedTime = currentTime;
       AppUtils.showToast('Press again to exit');
     } else {
-      Get.back();
+      SystemNavigator.pop();
     }
   }
 

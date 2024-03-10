@@ -27,14 +27,11 @@ class ImageUploadController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     getImages();
   }
 
-  void getImages() async {
-    await callGetListImagesAPI();
-  }
+  void getImages() async => await callGetListImagesAPI();
 
   final cloudinary = Cloudinary.signedConfig(
     apiKey: apiKey,
