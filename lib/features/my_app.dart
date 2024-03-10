@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../core/basic_features.dart';
 import '../core/theme/app_theme_data.dart';
 import 'home/home_screen.dart';
+import 'home/view_wallpaper.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

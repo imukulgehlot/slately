@@ -28,6 +28,7 @@ dependencies:
 #  flutter_native_splash: ^2.3.2
 #  flutter_launcher_icons: any
   flutter_animate: ^4.2.0+1
+  async_wallpaper: ^2.0.3
 
 
 

@@ -28,6 +28,18 @@ class HomeScreen extends StatelessWidget {
             ),
 
             // Wall List
+            SliverGrid.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, childAspectRatio: 1 / 4),
+              itemCount: 10,
+              itemBuilder: (context, index) => GridTile(
+                  child: CustomNetworkImage(
+                image:
+                    "https://res.cloudinary.com/djj6yah7c/image/upload/v1689013665/nsnqd5fvjjjyru2ikdlx.jpg",
+                height: Dimensions.h50,
+                fitType: BoxFit.cover,
+              )),
+            )
           ],
         ),
       ),
