@@ -9,8 +9,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
+  Widget build(BuildContext context) => ScreenUtilInit(
       designSize: const Size(360, 690),
       builder: (_, widget) {
         return GestureDetector(
@@ -33,5 +32,4 @@ class MyApp extends StatelessWidget {
         );
       },
     );
-  }
 }

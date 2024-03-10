@@ -12,6 +12,14 @@ build/
 ios/Pods/
 android/build/
 android/app/build/
+.packages
+.pub-cache/
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+**/ios/Flutter/.last_build_id
+.dart_tool/
+
 
 # Android build/gradle files
 android/app/.gradle/
