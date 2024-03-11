@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:slately/core/basic_features.dart';
 import 'package:slately/core/widgets/custom_image.dart';
 import 'package:slately/features/admin/controllers/image_upload_controller.dart';
@@ -17,7 +16,7 @@ class ImageUploadScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(Dimensions.commonPaddingForScreen),
+          padding: EdgeInsets.all(Dimensions.w10),
           child: Obx(
             () => GridView.builder(
                 physics: const BouncingScrollPhysics(),
@@ -69,15 +68,14 @@ class ImageUploadScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          var permission = await Permission.storage.request();
-          if (permission.isGranted) {
+          // if (await AppUtils.checkStoragePermission()) {
             XFile? file =
                 await ImagePicker().pickImage(source: ImageSource.gallery);
             if (file != null) {
               await imageUploadController.uploadImage(File(file.path));
               imageUploadController.getImages();
             }
-          }
+          // }
         },
         child: Icon(
           Icons.add,

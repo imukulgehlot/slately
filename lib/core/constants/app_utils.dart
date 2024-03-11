@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:slately/core/theme/color_scheme_extension.dart';
 import 'package:uuid/uuid.dart';
 
@@ -187,6 +188,22 @@ class AppUtils {
         SystemUiOverlay.top,
         SystemUiOverlay.bottom,
       ]);
+
+  static Future<bool> checkStoragePermission() async {
+    var status = await Permission.storage.status;
+
+    if (status.isGranted) {
+      return true;
+    } else if (status.isDenied) {
+      openAppSettings();
+      return false;
+    } else {
+      var status = await Permission.storage.request();
+      return status.isGranted;
+    }
+
+    return false;
+  }
 
   static void showCustomDialog({
     required String title,

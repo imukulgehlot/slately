@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:cloudinary/cloudinary.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,7 @@ final String apiSecret = dotenv.env['API_SECRET'] ?? '';
 final String folder = dotenv.env['FOLDER'] ?? '';
 
 class ImageUploadController extends GetxController {
+  String? nextCursor;
   Rx<APIResult<GetImagesResponseModel?>?> getImagesResult =
       Rx(APIResult<GetImagesResponseModel>.loading());
   RxList<Resource> images = RxList();
@@ -29,7 +31,22 @@ class ImageUploadController extends GetxController {
   void onInit() {
     super.onInit();
     getImages();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+        if (images.isNotEmpty && nextCursor != null) {
+          getImages();
+        }
+      }
+    });
   }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+
+  ScrollController scrollController = ScrollController();
 
   void getImages() async => await callGetListImagesAPI();
 
@@ -49,6 +66,12 @@ class ImageUploadController extends GetxController {
       'Authorization':
           'Basic ${base64Encode(utf8.encode("$apiKey:$apiSecret"))}',
     };
+    if (nextCursor != null) {
+      // url += '?next_cursor=$nextCursor';
+      // logger.i("NEXT URL $url");
+      params['next_cursor'] = nextCursor!;
+
+    }
     var networkResult = await APIHelper.instance
         .callGetApi(url, params, true, customHeader: headers);
 
@@ -56,7 +79,12 @@ class ImageUploadController extends GetxController {
         getAPIResultFromNetworkWithoutBase<GetImagesResponseModel>(
             networkResult, (json) => GetImagesResponseModel.fromJson(json));
     if (apiResultFromNetwork.apiResultType == APIResultType.success) {
-      images.value = apiResultFromNetwork.result!.resources!;
+      if (nextCursor != null) {
+        images.addAll(apiResultFromNetwork.result!.resources!);
+      } else {
+        images.value = apiResultFromNetwork.result!.resources!;
+      }
+      nextCursor = apiResultFromNetwork.result!.nextCursor;
     }
 
     getImagesResult.value = apiResultFromNetwork;

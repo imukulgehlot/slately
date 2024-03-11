@@ -10,17 +10,21 @@ String getImagesResponseModelToJson(GetImagesResponseModel data) => json.encode(
 
 class GetImagesResponseModel {
   final List<Resource>? resources;
+  final String? nextCursor;
 
   GetImagesResponseModel({
     this.resources,
+    this.nextCursor,
   });
 
   factory GetImagesResponseModel.fromJson(Map<String, dynamic> json) => GetImagesResponseModel(
     resources: json["resources"] == null ? [] : List<Resource>.from(json["resources"]!.map((x) => Resource.fromJson(x))),
+    nextCursor: json["next_cursor"],
   );
 
   Map<String, dynamic> toJson() => {
     "resources": resources == null ? [] : List<dynamic>.from(resources!.map((x) => x.toJson())),
+    "next_cursor": nextCursor,
   };
 }
 

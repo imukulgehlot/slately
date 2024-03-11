@@ -1,5 +1,7 @@
 import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:slately/core/utils/logger_util.dart';
 import 'package:slately/core/widgets/custom_image.dart';
 
 import '../../core/basic_features.dart';
@@ -15,8 +17,8 @@ class ViewWallpaper extends StatefulWidget {
 
 class _ViewWallpaperState extends State<ViewWallpaper> {
   @override
-  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -25,7 +27,7 @@ class _ViewWallpaperState extends State<ViewWallpaper> {
           Hero(
             tag: widget.pictureURL,
             child: CustomNetworkImage(
-              image: widget.pictureURL,
+              image: widget.pictureURL.replaceFirst('http://', 'https://'),
               height: Get.height,
               width: Get.width,
               fitType: BoxFit.cover,
@@ -59,19 +61,24 @@ class _ViewWallpaperState extends State<ViewWallpaper> {
                         title: const Text(
                           AppString.homeScreen,
                         ),
-                        onTap: () {
+                        onTap: () async {
                           // Two Close Dialog
                           Get.back();
-
-                          AsyncWallpaper.setWallpaper(
-                              url: widget.pictureURL,
-                              toastDetails: ToastDetails(
-                                  message: AppString.wallpaperSetSuccessfully),
-                              errorToastDetails: ToastDetails(
-                                  message:
-                                      AppString.whoopsSomethingWasNotRight),
+                          // Platform messages may fail, so we use a try/catch PlatformException.
+                          try {
+                           logger.i("URL ${widget.pictureURL}");
+                             await AsyncWallpaper.setWallpaper(
+                              url: widget.pictureURL.replaceFirst('http://', 'https://'),
+                              wallpaperLocation: AsyncWallpaper.HOME_SCREEN,
                               goToHome: true,
-                              wallpaperLocation: AsyncWallpaper.HOME_SCREEN);
+                              toastDetails: ToastDetails.success(),
+                              errorToastDetails: ToastDetails.error(),
+                            )
+                                ? 'Wallpaper set'
+                                : 'Failed to get wallpaper.';
+                          } on PlatformException {
+                            logger.e('Failed to get wallpaper.');
+                          }
                         },
                       ),
 
@@ -85,7 +92,7 @@ class _ViewWallpaperState extends State<ViewWallpaper> {
                           Get.back();
 
                           AsyncWallpaper.setWallpaper(
-                              url: widget.pictureURL,
+                              url: widget.pictureURL.replaceFirst('http://', 'https://'),
                               goToHome: true,
                               toastDetails: ToastDetails(
                                   message: AppString.wallpaperSetSuccessfully),
@@ -106,7 +113,7 @@ class _ViewWallpaperState extends State<ViewWallpaper> {
                           Get.back();
 
                           AsyncWallpaper.setWallpaper(
-                              url: widget.pictureURL,
+                              url: widget.pictureURL.replaceFirst('http://', 'https://'),
                               toastDetails: ToastDetails(
                                   message: AppString.wallpaperSetSuccessfully),
                               errorToastDetails: ToastDetails(
