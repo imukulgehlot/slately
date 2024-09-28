@@ -1,1 +1,0 @@
- D:\\work\\self\\slately\\.dart_tool\\flutter_build\\c7bf245414f3f3c297a71b41ac1fe375\\native_assets.yaml: 
